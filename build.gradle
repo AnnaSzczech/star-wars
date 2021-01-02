@@ -17,7 +17,7 @@ apply plugin: 'io.spring.dependency-management'
 
 group 'pl.example'
 version '1.0-SNAPSHOT'
-sourceCompatibility = 1.11
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -33,7 +33,6 @@ task copyJarToDockerPackage(type: Copy, dependsOn: bootJar){
 build.dependsOn copyJarToDockerPackage
 
 dependencies {
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-web')
     compile('org.projectlombok:lombok')
     annotationProcessor('org.projectlombok:lombok:1.18.10')
@@ -44,12 +43,15 @@ dependencies {
 
     //JSON
     compile('com.fasterxml.jackson.core:jackson-annotations:2.10.0')
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.0'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0'
+    compile('com.fasterxml.jackson.core:jackson-core:2.10.0')
+    compile('com.fasterxml.jackson.core:jackson-databind:2.10.0')
+    compile('com.google.code.gson:gson:2.8.6')
 
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+    //OPEN FEIGN
+    compile('io.github.openfeign:feign-okhttp:11.0')
+    compile('io.github.openfeign:feign-gson:11.0')
+    compile('io.github.openfeign:feign-slf4j:11.0')
 
     // TEST
     testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testCompile('com.h2database:h2')
 }
