@@ -14,12 +14,12 @@ public class StarWarsController {
     private StarWarsService starWarsService;
 
     @GetMapping(value = "/characters")
-    public Response getCharacters(@RequestParam(name = "page") Long pageNumber){
+    public Response getCharacters(@RequestParam(name = "page") final Long pageNumber) {
         return starWarsService.getCharacters(pageNumber);
     }
 
     @GetMapping(value = "/characters/{id}")
-    public CharacterDescription getCharacter(@PathVariable(name = "id") Long id){
+    public CharacterDescription getCharacter(@PathVariable(name = "id") final Long id) {
         return starWarsService.getCharacter(id);
     }
 }

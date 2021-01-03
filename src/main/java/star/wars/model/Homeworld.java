@@ -21,4 +21,18 @@ public class Homeworld {
     @JsonProperty(value = "surfaceWater")
     private String surface_water;
     private String population;
+
+    @Override
+    public String toString() {
+        return "{name=" + name +
+                ", diameter=" + diameter +
+                ", climate=" + climate +
+                ", gravity=" + gravity +
+                ", terrain=" + terrain +
+                ", population=" + population +
+                ", rotationPeriod=" + rotation_period +
+                ", orbitalPeriod=" + orbital_period +
+                ", surfaceWater=" + surface_water +
+                '}';
+    }
 }

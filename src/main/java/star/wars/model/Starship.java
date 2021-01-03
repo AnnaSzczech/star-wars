@@ -28,4 +28,22 @@ public class Starship {
     private String MGLT;
     @JsonProperty(value = "starshipClass")
     private String starship_class;
+
+    @Override
+    public String toString() {
+        return "{name=" + name +
+                ", model=" + model +
+                ", manufacturer=" + manufacturer +
+                ", length=" + length +
+                ", crew=" + crew +
+                ", passengers=" + passengers +
+                ", consumables=" + consumables +
+                ", costInCredits=" + cost_in_credits +
+                ", maxAtmosphericSpeed=" + max_atmosphering_speed +
+                ", cargoCapacity=" + cargo_capacity +
+                ", hyperdriveRating=" + hyperdrive_rating +
+                ", mglt=" + MGLT +
+                ", starshipClass=" + starship_class +
+                '}';
+    }
 }

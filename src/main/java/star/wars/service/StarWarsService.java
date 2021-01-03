@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import star.wars.client.StarWarsClient;
+import star.wars.exception.RecordNotFoundException;
 import star.wars.model.Starship;
 import star.wars.model.api.CharacterDescription;
 import star.wars.model.api.Response;
@@ -27,16 +28,26 @@ public class StarWarsService {
 
     public CharacterDescription getCharacter(final Long id) {
         StarWarsService.id = id;
-        return mapCharacter(starWarsClient.getCharacter(id));
+        try {
+            final Character character = starWarsClient.getCharacter(id);
+            return mapCharacter(character);
+        } catch (final Exception e) {
+            logger.error(e.getMessage());
+            throw new RecordNotFoundException("Character id '" + id + "' not exist");
+        }
     }
 
     public Response getCharacters(final Long pageNumber) {
         id = (pageNumber - 1) * 10 + 1;
-        final SwApiResponse swApiResponse = starWarsClient.getCharacters(pageNumber);
-        logger.info("Response: {}", swApiResponse);
-        final List<CharacterDescription> characters = new ArrayList<>();
-        swApiResponse.getResults().forEach(character -> characters.add(mapCharacter(character)));
-        return Response.builder().count(swApiResponse.getCount()).pages((swApiResponse.getCount() / 10) + 1).elements(characters).build();
+        try {
+            final SwApiResponse swApiResponse = starWarsClient.getCharacters(pageNumber);
+            final List<CharacterDescription> characters = new ArrayList<>();
+            swApiResponse.getResults().forEach(character -> characters.add(mapCharacter(character)));
+            return new Response(swApiResponse.getCount(), (swApiResponse.getCount() / 10) + 1, characters);
+        } catch (final Exception e) {
+            logger.error(e.getMessage());
+            throw new RecordNotFoundException("Page number '" + pageNumber + "' not exist");
+        }
     }
 
     private CharacterDescription mapCharacter(final Character character) {
